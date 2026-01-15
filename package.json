@@ -1,0 +1,46 @@
+{
+  "name": "productivity-api",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.0.8",
+    "@types/node-cron": "^3.0.11",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.3",
+    "node-cron": "^4.2.1",
+    "zod": "^4.3.5"
+  },
+  "version": "1.0.0",
+  "description": "Productivity Dashboard API",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sajagin/productivity-api.git"
+  },
+  "author": "SajagIN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sajagin/productivity-api/issues"
+  },
+  "homepage": "https://github.com/sajagin/productivity-api#readme"
+}
