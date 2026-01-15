@@ -1,112 +1,112 @@
 ```mermaid
 graph TB
     subgraph Client["👤 CLIENT LAYER"]
-        Browser["Web Browser / Postman"]
-        Frontend["Future Frontend App"]
+        Browser["Web Browser<br/>Postman"]
+        Frontend["Future Frontend"]
     end
 
     subgraph API["🚀 EXPRESS API SERVER"]
         direction TB
         
-        subgraph Entry["ENTRY POINT"]
-            Server["index.ts<br/>Express Server<br/>Port: 5000"]
+        Server["index.ts<br/>Server Entry"]
+        
+        subgraph Routes["📍 ROUTES"]
+            AuthR["/api/auth"]
+            TaskR["/api/tasks"]
+            DashR["/api/dashboard"]
         end
         
-        subgraph Routing["📍 API ROUTES"]
-            AuthRoutes["authRoutes.ts<br/>POST /api/auth/register<br/>POST /api/auth/login"]
-            TaskRoutes["taskRoutes.ts<br/>GET/POST/PUT/DELETE<br/>/api/tasks"]
-            DashboardRoutes["dashboardRoutes.ts<br/>GET /api/dashboard/stats"]
+        subgraph Middle["🛡️ MIDDLEWARE"]
+            CORS["CORS"]
+            Auth["Auth Check"]
+            Valid["Validation"]
+            Error["Error Handler"]
         end
         
-        subgraph MW["🛡️ MIDDLEWARE"]
-            CORS["CORS<br/>Allow Origins"]
-            Auth["authMiddleware.ts<br/>Verify JWT Token"]
-            Validator["Zod Validators<br/>Request Validation"]
-            ErrorHandler["errorHandler.ts<br/>Catch & Format Errors"]
+        subgraph Control["🎮 CONTROLLERS"]
+            AuthC["authController"]
+            TaskC["taskController"]
+            DashC["dashController"]
         end
         
-        subgraph Controllers["🎮 CONTROLLERS"]
-            AuthCtrl["authController.ts<br/>register()<br/>login()"]
-            TaskCtrl["taskController.ts<br/>createTask()<br/>getTasks()<br/>updateTask()<br/>deleteTask()"]
-            DashCtrl["dashboardController.ts<br/>getStats()"]
+        subgraph Serv["⚙️ SERVICES"]
+            AuthS["authService"]
+            TaskS["taskService"]
         end
         
-        subgraph Services["⚙️ BUSINESS LOGIC"]
-            AuthService["authService.ts<br/>Hash passwords<br/>Generate JWT<br/>Validate credentials"]
-            TaskService["taskService.ts<br/>Calculate overdue<br/>Filter & search<br/>Aggregate stats"]
-        end
-        
-        subgraph Models["📦 DATA MODELS"]
-            UserModel["User.ts<br/>email, password<br/>createdAt"]
-            TaskModel["Task.ts<br/>title, description<br/>priority, status<br/>deadline, userId"]
+        subgraph Mod["📦 MODELS"]
+            UserM["User Model"]
+            TaskM["Task Model"]
         end
     end
 
-    subgraph Database["💾 DATABASE LAYER"]
-        MongoDB[(MongoDB<br/>productivity-db)]
-        Collections["Collections:<br/>users<br/>tasks"]
+    subgraph DB["💾 DATABASE"]
+        Mongo[("MongoDB")]
     end
 
-    subgraph External["🔧 EXTERNAL TOOLS"]
-        JWT["jsonwebtoken<br/>Token generation"]
-        Bcrypt["bcryptjs<br/>Password hashing"]
-        Zod["Zod<br/>Schema validation"]
+    subgraph Tools["🔧 TOOLS"]
+        JWT["JWT"]
+        Bcrypt["Bcrypt"]
+        Zod["Zod"]
     end
 
-    Browser --> Server
-    Frontend --> Server
+    Browser ==>|HTTP Request| Server
+    Frontend ==>|HTTP Request| Server
     
-    Server --> CORS
-    CORS --> AuthRoutes
-    CORS --> TaskRoutes
-    CORS --> DashboardRoutes
+    Server ==> CORS
+    CORS ==> AuthR
+    CORS ==> TaskR
+    CORS ==> DashR
     
-    AuthRoutes --> Validator
-    TaskRoutes --> Auth
-    DashboardRoutes --> Auth
+    AuthR ==> Valid
+    TaskR ==> Auth
+    DashR ==> Auth
     
-    Auth --> Validator
-    Validator --> AuthCtrl
-    Validator --> TaskCtrl
-    Validator --> DashCtrl
+    Auth ==> Valid
+    Valid ==> AuthC
+    Valid ==> TaskC
+    Valid ==> DashC
     
-    AuthCtrl --> AuthService
-    TaskCtrl --> TaskService
-    DashCtrl --> TaskService
+    AuthC ==> AuthS
+    TaskC ==> TaskS
+    DashC ==> TaskS
     
-    AuthService --> JWT
-    AuthService --> Bcrypt
-    AuthService --> UserModel
-    TaskService --> TaskModel
+    AuthS --> JWT
+    AuthS --> Bcrypt
+    AuthS ==> UserM
+    TaskS ==> TaskM
     
-    UserModel --> MongoDB
-    TaskModel --> MongoDB
-    MongoDB --> Collections
+    UserM ==> Mongo
+    TaskM ==> Mongo
     
-    TaskCtrl -.Response.-> ErrorHandler
-    AuthCtrl -.Response.-> ErrorHandler
-    DashCtrl -.Response.-> ErrorHandler
+    TaskC -.->|Response| Error
+    AuthC -.->|Response| Error
+    DashC -.->|Response| Error
     
-    ErrorHandler -.JSON Response.-> Browser
-    ErrorHandler -.JSON Response.-> Frontend
+    Error ==>|JSON| Browser
+    Error ==>|JSON| Frontend
 
-    style Browser fill:#1e88e5,stroke:#000,stroke-width:3px,color:#fff
-    style Frontend fill:#1e88e5,stroke:#000,stroke-width:3px,color:#fff
-    style Server fill:#ff6f00,stroke:#000,stroke-width:4px,color:#fff
-    style CORS fill:#7b1fa2,stroke:#000,stroke-width:3px,color:#fff
-    style Auth fill:#7b1fa2,stroke:#000,stroke-width:3px,color:#fff
-    style Validator fill:#7b1fa2,stroke:#000,stroke-width:3px,color:#fff
-    style ErrorHandler fill:#d32f2f,stroke:#000,stroke-width:3px,color:#fff
-    style AuthCtrl fill:#388e3c,stroke:#000,stroke-width:3px,color:#fff
-    style TaskCtrl fill:#388e3c,stroke:#000,stroke-width:3px,color:#fff
-    style DashCtrl fill:#388e3c,stroke:#000,stroke-width:3px,color:#fff
-    style AuthService fill:#f9a825,stroke:#000,stroke-width:3px,color:#000
-    style TaskService fill:#f9a825,stroke:#000,stroke-width:3px,color:#000
-    style UserModel fill:#c2185b,stroke:#000,stroke-width:3px,color:#fff
-    style TaskModel fill:#c2185b,stroke:#000,stroke-width:3px,color:#fff
-    style MongoDB fill:#00796b,stroke:#000,stroke-width:4px,color:#fff
-    style Collections fill:#00796b,stroke:#000,stroke-width:3px,color:#fff
-    style JWT fill:#6a1b9a,stroke:#000,stroke-width:3px,color:#fff
-    style Bcrypt fill:#6a1b9a,stroke:#000,stroke-width:3px,color:#fff
-    style Zod fill:#6a1b9a,stroke:#000,stroke-width:3px,color:#fff
+    linkStyle default stroke:#000,stroke-width:3px
+
+    style Browser fill:#2196f3,stroke:#0d47a1,stroke-width:3px,color:#fff
+    style Frontend fill:#2196f3,stroke:#0d47a1,stroke-width:3px,color:#fff
+    style Server fill:#ff6f00,stroke:#e65100,stroke-width:4px,color:#fff
+    style CORS fill:#9c27b0,stroke:#4a148c,stroke-width:3px,color:#fff
+    style Auth fill:#9c27b0,stroke:#4a148c,stroke-width:3px,color:#fff
+    style Valid fill:#9c27b0,stroke:#4a148c,stroke-width:3px,color:#fff
+    style Error fill:#f44336,stroke:#b71c1c,stroke-width:3px,color:#fff
+    style AuthC fill:#4caf50,stroke:#1b5e20,stroke-width:3px,color:#fff
+    style TaskC fill:#4caf50,stroke:#1b5e20,stroke-width:3px,color:#fff
+    style DashC fill:#4caf50,stroke:#1b5e20,stroke-width:3px,color:#fff
+    style AuthS fill:#ffeb3b,stroke:#f57f17,stroke-width:3px,color:#000
+    style TaskS fill:#ffeb3b,stroke:#f57f17,stroke-width:3px,color:#000
+    style UserM fill:#e91e63,stroke:#880e4f,stroke-width:3px,color:#fff
+    style TaskM fill:#e91e63,stroke:#880e4f,stroke-width:3px,color:#fff
+    style Mongo fill:#009688,stroke:#004d40,stroke-width:4px,color:#fff
+    style JWT fill:#673ab7,stroke:#311b92,stroke-width:3px,color:#fff
+    style Bcrypt fill:#673ab7,stroke:#311b92,stroke-width:3px,color:#fff
+    style Zod fill:#673ab7,stroke:#311b92,stroke-width:3px,color:#fff
+    style AuthR fill:#ff9800,stroke:#e65100,stroke-width:3px,color:#fff
+    style TaskR fill:#ff9800,stroke:#e65100,stroke-width:3px,color:#fff
+    style DashR fill:#ff9800,stroke:#e65100,stroke-width:3px,color:#fff
 ```
