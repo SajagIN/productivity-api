@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Productivity Beast</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #ffe8d6;
+      color: #6b705c;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #6b705c;
+      margin: 40px 0;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: #6b705c;
+      margin-bottom: 20px;
+    }
+    
+    h3 {
+      font-size: 1.3rem;
+      color: #6b705c;
+      margin-bottom: 15px;
+    }
+    
+    .auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .auth-box {
+      background-color: #ddbea9;
+      padding: 30px;
+      border-radius: 8px;
+      border: 2px solid #cb997e;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      background-color: #ffe8d6;
+      border: 1px solid #b7b7a4;
+      border-radius: 4px;
+      font-size: 1rem;
+      color: #6b705c;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #cb997e;
+      border-color: #cb997e;
+    }
+    
+    button {
+      padding: 12px 24px;
+      background-color: #cb997e;
+      color: #ffe8d6;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #a5a58d;
+    }
+    
+    .btn-full {
+      width: 100%;
+    }
+    
+    .message {
+      text-align: center;
+      color: #6b705c;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .task-form {
+      background-color: #ddbea9;
+      padding: 30px;
+      border-radius: 8px;
+      border: 2px solid #cb997e;
+      margin-bottom: 30px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    
+    .task-card {
+      background-color: #ddbea9;
+      padding: 24px;
+      border-radius: 8px;
+      border: 2px solid #b7b7a4;
+    }
+    
+    .task-card.overdue {
+      border-color: #6b705c;
+      background-color: #b7b7a4;
+    }
+    
+    .task-card.completed {
+      opacity: 0.6;
+    }
+    
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 15px;
+    }
+    
+    .task-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #6b705c;
+    }
+    
+    .priority-badge {
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffe8d6;
+    }
+    
+    .priority-high {
+      background-color: #6b705c;
+    }
+    
+    .priority-medium {
+      background-color: #a5a58d;
+    }
+    
+    .priority-low {
+      background-color: #cb997e;
+    }
+    
+    .task-description {
+      color: #6b705c;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    
+    .task-info {
+      margin-bottom: 8px;
+      color: #6b705c;
+    }
+    
+    .tag {
+      display: inline-block;
+      background-color: #a5a58d;
+      color: #ffe8d6;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    
+    .task-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .btn-edit {
+      background-color: #a5a58d;
+    }
+    
+    .btn-complete {
+      background-color: #cb997e;
+    }
+    
+    .btn-delete {
+      background-color: #6b705c;
+    }
+    
+    .btn-logout {
+      background-color: #6b705c;
+    }
+    
+    .footer-note {
+      text-align: center;
+      color: #6b705c;
+      font-size: 0.95rem;
+      margin-top: 40px;
+      padding: 20px 30px;
+      background-color: #ddbea9;
+      border: 2px solid #cb997e;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    
+    .footer-note::before {
+      content: "ℹ️ Important Note";
+      display: block;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #6b705c;
+    }
+    
+    @media (max-width: 768px) {
+      .auth-grid, .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Productivity Beast</h1>
+
+    <!-- AUTH SECTION -->
+    <div id="auth-section">
+      <div class="auth-grid">
+        <!-- Register -->
+        <div class="auth-box">
+          <h2>Register</h2>
+          <input id="reg-name" placeholder="Full Name" />
+          <input id="reg-email" type="email" placeholder="Email" />
+          <input id="reg-password" type="password" placeholder="Password (min 6)" />
+          <button onclick="register()" class="btn-full">Create Account</button>
+        </div>
+
+        <!-- Login -->
+        <div class="auth-box">
+          <h2>Login</h2>
+          <input id="login-email" type="email" placeholder="Email" />
+          <input id="login-password" type="password" placeholder="Password" />
+          <button onclick="login()" class="btn-full">Login Now</button>
+        </div>
+      </div>
+
+      <p id="auth-message" class="message"></p>
+      
+      <div class="footer-note">
+        Frontend hosted on GitHub Pages • Backend hosted on Vercel
+      </div>
+    </div>
+
+    <!-- TASKS SECTION -->
+    <div id="tasks-section" class="hidden">
+      <div class="header-row">
+        <h2>My Tasks</h2>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+      </div>
+
+      <!-- Create Task Form -->
+      <div class="task-form">
+        <h3>Create New Task</h3>
+        <div class="form-grid">
+          <input id="title" placeholder="Task Title *" required />
+          <textarea id="description" placeholder="Description (optional)" rows="3"></textarea>
+          <select id="priority">
+            <option value="Medium">Medium Priority</option>
+            <option value="High">High Priority</option>
+            <option value="Low">Low Priority</option>
+          </select>
+          <input id="deadline" type="datetime-local" />
+          <input id="tags" placeholder="Tags (comma separated)" />
+          <select id="status">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <button onclick="createTask()" class="btn-full">Add Task</button>
+      </div>
+
+      <!-- Task List -->
+      <div id="task-list" class="task-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    const API = "http://localhost:5000/api";
+    let token = null;
+
+    async function register() {
+      const res = await fetch(`${API}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: document.getElementById("reg-name").value,
+          email: document.getElementById("reg-email").value,
+          password: document.getElementById("reg-password").value
+        })
+      });
+      handleAuthResponse(res);
+    }
+
+    async function login() {
+      const res = await fetch(`${API}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: document.getElementById("login-email").value,
+          password: document.getElementById("login-password").value
+        })
+      });
+      handleAuthResponse(res);
+    }
+
+    async function handleAuthResponse(res) {
+      const data = await res.json();
+      document.getElementById("auth-message").textContent = data.message || data.error || "";
+      if (data.token) {
+        token = data.token;
+        showTasks();
+      }
+    }
+
+    function showTasks() {
+      document.getElementById("auth-section").classList.add("hidden");
+      document.getElementById("tasks-section").classList.remove("hidden");
+      loadTasks();
+    }
+
+    function logout() {
+      token = null;
+      location.reload();
+    }
+
+    async function createTask() {
+      const title = document.getElementById("title").value.trim();
+      if (!title) return alert("Title is required!");
+
+      const tags = document.getElementById("tags").value.split(",").map(t => t.trim()).filter(t => t);
+      
+      const body = {
+        title,
+        description: document.getElementById("description").value || undefined,
+        priority: document.getElementById("priority").value,
+        status: document.getElementById("status").value,
+        deadline: document.getElementById("deadline").value || undefined,
+        tags: tags.length ? tags : undefined
+      };
+
+      await fetch(`${API}/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("tags").value = "";
+      document.getElementById("deadline").value = "";
+
+      loadTasks();
+    }
+
+    async function updateTask(id, updates) {
+      await fetch(`${API}/tasks/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(updates)
+      });
+      loadTasks();
+    }
+
+    async function deleteTask(id) {
+      if (!confirm("Delete this task forever?")) return;
+      await fetch(`${API}/tasks/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      loadTasks();
+    }
+
+    function editTask(id, task) {
+      const newTitle = prompt("Edit Title:", task.title) || task.title;
+      const newDesc = prompt("Edit Description:", task.description || "") || "";
+      const newPriority = prompt("Edit Priority (Low/Medium/High):", task.priority) || "Medium";
+      const newStatus = prompt("Edit Status (Pending/In Progress/Completed):", task.status) || "Pending";
+      const newDeadline = prompt("Edit Deadline (leave blank to remove):", task.deadline ? new Date(task.deadline).toISOString().slice(0,16) : "") || null;
+
+      const updates = {
+        title: newTitle,
+        description: newDesc || undefined,
+        priority: newPriority,
+        status: newStatus,
+        deadline: newDeadline || undefined,
+      };
+
+      updateTask(id, updates);
+    }
+
+    async function loadTasks() {
+      const res = await fetch(`${API}/tasks`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const { tasks } = await res.json();
+      const now = new Date();
+
+      document.getElementById("task-list").innerHTML = tasks.map(t => {
+        const isOverdue = t.deadline && new Date(t.deadline) < now && t.status !== "Completed";
+        const isCompleted = t.status === "Completed";
+
+        return `
+          <div class="task-card ${isOverdue ? 'overdue' : ''} ${isCompleted ? 'completed' : ''}">
+            <div class="task-header">
+              <h3 class="task-title">${t.title}</h3>
+              <span class="priority-badge priority-${t.priority.toLowerCase()}">${t.priority}</span>
+            </div>
+            
+            ${t.description ? `<p class="task-description">${t.description}</p>` : ''}
+            <p class="task-info"><strong>Status:</strong> ${t.status}</p>
+            ${t.deadline ? `<p class="task-info"><strong>Deadline:</strong> ${new Date(t.deadline).toLocaleString()}</p>` : ''}
+            ${t.tags?.length ? `<p class="task-info"><strong>Tags:</strong> ${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</p>` : ''}
+
+            <div class="task-actions">
+              <button onclick='editTask("${t._id}", ${JSON.stringify(t).replace(/"/g, '&quot;')})' class="btn-edit">Edit</button>
+              
+              ${!isCompleted ? `<button onclick="updateTask('${t._id}', { status: 'Completed' })" class="btn-complete">Complete</button>` : ''}
+              
+              <button onclick="deleteTask('${t._id}')" class="btn-delete">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
