@@ -29,7 +29,7 @@
   },
   "version": "1.0.0",
   "description": "Productivity Dashboard API",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
 "scripts": {
   "dev": "bun --watch src/server.ts",
   "build": "bun build ./src/server.ts --outdir ./dist --target node",
