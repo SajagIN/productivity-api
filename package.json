@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^3.0.0",
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -18,7 +18,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
@@ -30,19 +30,19 @@
   "version": "1.0.0",
   "description": "Productivity Dashboard API",
   "main": "dist/server.js",
-"scripts": {
-  "dev": "bun --watch src/server.ts",
-  "build": "bun build ./src/server.ts --outdir ./dist --target node",
-  "start": "bun dist/server.js"
-},
-"repository": {
-  "type": "git",
-  "url": "git+https://github.com/sajagin/productivity-api.git"
-},
-"author": "SajagIN",
-"license": "ISC",
-"bugs": {
-  "url": "https://github.com/sajagin/productivity-api/issues"
-},
-"homepage": "https://github.com/sajagin/productivity-api#readme"
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "build": "bun build ./src/server.ts --outdir ./dist --target node",
+    "start": "bun dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sajagin/productivity-api.git"
+  },
+  "author": "SajagIN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sajagin/productivity-api/issues"
+  },
+  "homepage": "https://github.com/sajagin/productivity-api#readme"
 }

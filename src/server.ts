@@ -15,13 +15,12 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   process.env.FRONTEND_URL,
-].filter(Boolean);
+].filter(Boolean) as string[];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
       if (process.env.NODE_ENV !== "production") {
@@ -36,6 +35,18 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Database Connection Middleware (CRITICAL FOR VERCEL)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("Database connection error in middleware:", err);
+    res.status(500).json({ error: "Internal Server Error: Database Connection Failed" });
+  }
+});
+
+
 app.get("/", (req, res) => {
   res.json({
     message: "Productivity API",
@@ -49,23 +60,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/test", testRoutes);
 
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
 
-const start = async () => {
-  try {
-    await connectDB();
-
-    if (!process.env.VERCEL) {
-      app.listen(PORT, "0.0.0.0", () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-      });
-    }
-  } catch (err) {
-    console.error("Failed to start server:", err);
-    process.exit(1);
-  }
-};
-
-start();
-
-
+// 5. Export for Vercel
 export default app;
