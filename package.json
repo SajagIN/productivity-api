@@ -1,7 +1,5 @@
 {
   "name": "productivity-api",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
