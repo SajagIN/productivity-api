@@ -32,7 +32,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "build": "bun build ./src/server.ts --outdir ./dist --target node",
+    "build": "bun build ./src/server.ts --outdir ./dist --target node --bundle",
     "start": "bun dist/server.js"
   },
   "repository": {
