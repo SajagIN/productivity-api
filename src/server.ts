@@ -14,8 +14,8 @@ const PORT = Number(process.env.PORT) || 5000;
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://sajagin.github.io/productivity-api/",
-  "https://sajagin.thedev.id/productivity-api/",
+  "https://sajagin.github.io",
+  "https://sajagin.thedev.id",
   process.env.FRONTEND_URL,
 ].filter(Boolean) as string[];
 
