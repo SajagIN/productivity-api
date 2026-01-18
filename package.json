@@ -30,19 +30,19 @@
   "version": "1.0.0",
   "description": "Productivity Dashboard API",
   "main": "dist/index.js",
-  "scripts": {
-    "dev": "bun --watch src/server.ts",
-    "build": "bun tsc",
-    "start": "bun dist/server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sajagin/productivity-api.git"
-  },
-  "author": "SajagIN",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sajagin/productivity-api/issues"
-  },
-  "homepage": "https://github.com/sajagin/productivity-api#readme"
+"scripts": {
+  "dev": "bun --watch src/server.ts",
+  "build": "bun build ./src/server.ts --outdir ./dist --target node",
+  "start": "bun dist/server.js"
+},
+"repository": {
+  "type": "git",
+  "url": "git+https://github.com/sajagin/productivity-api.git"
+},
+"author": "SajagIN",
+"license": "ISC",
+"bugs": {
+  "url": "https://github.com/sajagin/productivity-api/issues"
+},
+"homepage": "https://github.com/sajagin/productivity-api#readme"
 }
